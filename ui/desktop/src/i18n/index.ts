@@ -4,7 +4,7 @@
  * Locale resolution order:
  *   1. GOOSE_LOCALE config value (manual setting or environment variable, passed through appConfig)
  *   2. navigator.languages (full accept-language list from OS/browser)
- *   3. "en" (fallback)
+ *   3. "ja-JP" (Tom distribution fallback)
  *
  * For Chinese: any Simplified Chinese tag (zh, zh-CN, zh-Hans, zh-Hans-CN, zh-SG, zh-MY)
  * maps to the "zh-CN" catalog; Traditional variants (zh-TW, zh-HK, zh-MO, zh-Hant) map to
@@ -87,7 +87,7 @@ export function getLocale(): { locale: string; messageLocale: string } {
     }
   }
 
-  return { locale: 'en', messageLocale: 'en' };
+  return { locale: 'ja-JP', messageLocale: 'ja' };
 }
 
 /** Resolved locales — computed once at module load. */

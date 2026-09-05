@@ -18,10 +18,10 @@ describe('getLocale', () => {
     vi.restoreAllMocks();
   });
 
-  it('returns "en" as the default fallback', () => {
+  it('returns Japanese as the Tom distribution fallback', () => {
     // navigator.languages contains only unsupported tags
     vi.stubGlobal('navigator', { languages: ['xx-XX'] });
-    expect(getLocale()).toEqual({ locale: 'en', messageLocale: 'en' });
+    expect(getLocale()).toEqual({ locale: 'ja-JP', messageLocale: 'ja' });
   });
 
   it('preserves regional tag for formatting when base language is supported', () => {
