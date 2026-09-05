@@ -1,8 +1,8 @@
 <div align="center">
 
-# goose
+# Tom
 
-_your native open source AI agent — desktop app, CLI, and API — for code, workflows, and everything in between_
+_日本語で考え、日本語で仕事を進めるオープンソースAIエージェント_
 
 <p align="center">
   <a href="https://opensource.org/licenses/Apache-2.0"
@@ -19,6 +19,11 @@ _your native open source AI agent — desktop app, CLI, and API — for code, wo
 
 </div>
 
+Tomは、[goose](https://github.com/aaif-goose/goose)を基盤にした日本語優先のディストリビューションです。日本語での対話、文書作成、調査、開発作業を自然に進められる体験を目指しています。
+
+現在は初期開発段階です。内部のcrate名や設定キーには、上流gooseとの互換性を保つため`goose`の名称が残っています。変更方針と進捗は[TOM.md](TOM.md)を参照してください。
+
+## Upstream
 
 goose is a general-purpose AI agent that runs on your machine. Not just for code — use it for research, writing, automation, data analysis, or anything you need to get done.
 
