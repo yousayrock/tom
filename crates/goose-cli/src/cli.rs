@@ -74,7 +74,7 @@ impl From<ServePlatform> for GoosePlatform {
         author,
         version,
         display_name = "",
-        about = "トム(Tom)、gooseを基盤にした日本語優先のAIエージェント",
+        about = "トム(Tom)、gooseを基盤にした日本語ネイティブのAIエージェント",
         long_about = None
     )
 )]

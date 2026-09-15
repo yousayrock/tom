@@ -1,6 +1,6 @@
 # Tom
 
-Tomは、AAIFのオープンソースAIエージェント[goose](https://github.com/aaif-goose/goose)を基盤にした、日本語優先のディストリビューションです。
+Tomは、AAIFのオープンソースAIエージェント[goose](https://github.com/aaif-goose/goose)を基盤に、日本語で自然に使えることを目指したディストリビューションです。
 
 ## プロダクト方針
 
@@ -12,7 +12,7 @@ Tomは、AAIFのオープンソースAIエージェント[goose](https://github.
 
 ## 開発段階
 
-### Phase 1: 日本語優先の土台
+### Phase 1: 日本語ネイティブの土台
 
 - [x] GitHubフォークと`upstream` remoteの設定
 - [x] Tomの基本人格と日本語応答規則
