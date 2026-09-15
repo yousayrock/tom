@@ -33,45 +33,46 @@ just build-tom
 
 設定ファイルと環境変数は、上流互換性のため引き続き`GOOSE_*`を使用します。
 
-## Upstream
+## Upstream (goose)
 
-goose is a general-purpose AI agent that runs on your machine. Not just for code — use it for research, writing, automation, data analysis, or anything you need to get done.
+gooseは、あなたのマシン上で動く汎用AIエージェントです。コードだけでなく、調査、文章作成、自動化、データ分析など、やりたいことは何でもこなせます。
 
-A native desktop app for macOS, Linux, and Windows. A full CLI for terminal workflows. An API to embed it anywhere. Built in Rust for performance and portability.
+macOS・Linux・Windows向けのネイティブデスクトップアプリ、ターミナル作業向けのフルCLI、どこにでも組み込めるAPIを提供します。パフォーマンスと移植性のためRustで構築されています。
 
-goose works with 15+ providers — Anthropic, OpenAI, Google, Ollama, OpenRouter, Azure, Bedrock, and more. Use API keys or your existing Claude, ChatGPT, or Gemini subscriptions via [ACP](https://goose-docs.ai/docs/guides/acp-providers). Connect to 70+ extensions via the [Model Context Protocol](https://modelcontextprotocol.io/) open standard.
+gooseは15以上のプロバイダー（Anthropic、OpenAI、Google、Ollama、OpenRouter、Azure、Bedrockなど）に対応しています。APIキー、または既存のClaude・ChatGPT・Geminiのサブスクリプションを[ACP](https://goose-docs.ai/docs/guides/acp-providers)経由で利用できます。[Model Context Protocol](https://modelcontextprotocol.io/)というオープン標準で70以上の拡張機能に接続できます。
 
-goose is part of the [Agentic AI Foundation (AAIF)](https://aaif.io/) at the Linux Foundation.
+gooseはLinux Foundation傘下の[Agentic AI Foundation (AAIF)](https://aaif.io/)の一部です。
 
-# Get started
+# はじめる
 
-**[Download the desktop app](https://goose-docs.ai/docs/getting-started/installation)** for macOS, Linux, and Windows.
+**[デスクトップアプリをダウンロード](https://goose-docs.ai/docs/getting-started/installation)**（macOS・Linux・Windows対応）
 
-Or install the CLI:
+またはCLIをインストール:
 
 ```bash
 curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | bash
 ```
 
-# Quick links
-- [Quickstart](https://goose-docs.ai/docs/quickstart)
-- [Installation](https://goose-docs.ai/docs/getting-started/installation)
-- [Tutorials](https://goose-docs.ai/docs/category/tutorials)
-- [Documentation](https://goose-docs.ai/docs/category/getting-started)
-- [Governance](https://github.com/aaif-goose/goose/blob/main/GOVERNANCE.md)
-- [Custom Distributions](https://github.com/aaif-goose/goose/blob/main/CUSTOM_DISTROS.md) — build your own goose distro with preconfigured providers, extensions, and branding
+# クイックリンク
+- [クイックスタート](https://goose-docs.ai/docs/quickstart)
+- [インストール](https://goose-docs.ai/docs/getting-started/installation)
+- [チュートリアル](https://goose-docs.ai/docs/category/tutorials)
+- [ドキュメント](https://goose-docs.ai/docs/category/getting-started)
+- [ガバナンス](https://github.com/aaif-goose/goose/blob/main/GOVERNANCE.md)
+- [カスタムディストリビューション](https://github.com/aaif-goose/goose/blob/main/CUSTOM_DISTROS.md) — 独自のプロバイダー・拡張機能・ブランディングを設定した、あなただけのgooseディストリビューションを作る（Tomはこの仕組みで作られている）
 
-## Need help?
-- [Diagnostics & Reporting](https://goose-docs.ai/docs/troubleshooting/diagnostics-and-reporting)
-- [Known Issues](https://goose-docs.ai/docs/troubleshooting/known-issues)
+## 困ったときは
+- [診断とレポート](https://goose-docs.ai/docs/troubleshooting/diagnostics-and-reporting)
+- [既知の問題](https://goose-docs.ai/docs/troubleshooting/known-issues)
 
-# a little goose humor 🪿
+# ちょっとしたgooseジョーク 🪿
 
-> Why did the developer choose goose as their AI agent?
-> 
-> Because it always helps them "migrate" their code to production! 🚀
+> 開発者がAIエージェントにgooseを選んだ理由は？
+>
+> いつも本番環境へのコードの「migrate（渡り）」を手伝ってくれるから！🚀
+> （gooseは渡り鳥。"migrate"には「移行する」と「渡りをする」の両方の意味がある）
 
-# goose around with us
+# goose関連リンク
 - [Discord](https://discord.gg/n8R5VaWDAn)
 - [YouTube](https://www.youtube.com/@goose-oss)
 - [LinkedIn](https://www.linkedin.com/company/goose-oss)
