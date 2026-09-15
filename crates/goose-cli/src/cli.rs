@@ -67,7 +67,21 @@ impl From<ServePlatform> for GoosePlatform {
 }
 
 #[derive(Parser)]
-#[command(name = "goose", author, version, display_name = "", about, long_about = None)]
+#[cfg_attr(
+    feature = "tom-distribution",
+    command(
+        name = "tom",
+        author,
+        version,
+        display_name = "",
+        about = "トム(Tom)、gooseを基盤にした日本語優先のAIエージェント",
+        long_about = None
+    )
+)]
+#[cfg_attr(
+    not(feature = "tom-distribution"),
+    command(name = "goose", author, version, display_name = "", about, long_about = None)
+)]
 pub struct Cli {
     #[command(subcommand)]
     command: Option<Command>,

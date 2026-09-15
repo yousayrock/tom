@@ -261,7 +261,7 @@ mod tests {
         assert!(result.is_ok(), "Should be able to render system.md");
         let rendered = result.unwrap();
         assert!(!rendered.is_empty());
-        assert!(rendered.contains("You are Tom"));
+        assert!(rendered.contains("You are トム"));
         assert!(rendered.contains("Use natural Japanese by default"));
     }
 

@@ -17,7 +17,7 @@ Tomは、AAIFのオープンソースAIエージェント[goose](https://github.
 - [x] GitHubフォークと`upstream` remoteの設定
 - [x] Tomの基本人格と日本語応答規則
 - [x] デスクトップ製品名の初期変更
-- [ ] CLI実行ファイルを`tom`として提供
+- [x] CLI実行ファイルを`tom`として提供
 - [x] デスクトップの既定ロケールを日本語に設定
 
 ### Phase 2: 日本語体験

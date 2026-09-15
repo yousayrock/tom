@@ -23,6 +23,16 @@ Tomは、[goose](https://github.com/aaif-goose/goose)を基盤にした日本語
 
 現在は初期開発段階です。内部のcrate名や設定キーには、上流gooseとの互換性を保つため`goose`の名称が残っています。変更方針と進捗は[TOM.md](TOM.md)を参照してください。
 
+## Tom CLIを試す
+
+```bash
+source bin/activate-hermit
+just build-tom
+./target/debug/tom --help
+```
+
+設定ファイルと環境変数は、上流互換性のため引き続き`GOOSE_*`を使用します。
+
 ## Upstream
 
 goose is a general-purpose AI agent that runs on your machine. Not just for code — use it for research, writing, automation, data analysis, or anything you need to get done.

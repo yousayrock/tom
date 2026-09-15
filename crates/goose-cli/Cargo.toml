@@ -16,6 +16,11 @@ name = "goose"
 path = "src/main.rs"
 
 [[bin]]
+name = "tom"
+path = "src/bin/tom.rs"
+required-features = ["tom-distribution"]
+
+[[bin]]
 name = "generate_manpages"
 path = "src/bin/generate_manpages.rs"
 
@@ -102,6 +107,7 @@ default = [
     "system-keyring",
     "update",
 ]
+tom-distribution = []
 roaming = ["dep:goose-roaming", "dep:qrcode", "dep:fs2", "dep:agent-client-protocol"]
 code-mode = ["goose/code-mode"]
 local-inference = ["goose/local-inference"]

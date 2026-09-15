@@ -26,6 +26,13 @@ release-binary:
     cargo build --release -p goose-cli --bin goose
     @just copy-binary
 
+# Build the Tom CLI while keeping the upstream goose binary target available.
+build-tom:
+    cargo build -p goose-cli --bin tom --no-default-features --features tom-distribution,portable-default
+
+release-tom:
+    cargo build --release -p goose-cli --bin tom --no-default-features --features tom-distribution,portable-default
+
 # Build Windows executable on a Windows host
 [unix]
 release-windows:
