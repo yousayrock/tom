@@ -1,6 +1,6 @@
 <div align="center">
 
-# Tom
+# トム
 
 _日本語で考え、日本語で仕事を進めるオープンソースAIエージェント_
 
@@ -19,11 +19,11 @@ _日本語で考え、日本語で仕事を進めるオープンソースAIエ�
 
 </div>
 
-Tomは、[goose](https://github.com/aaif-goose/goose)を基盤に、対話・文書作成・調査・開発作業を日本語で自然に進められることを目指したディストリビューションです。
+トムは、[goose](https://github.com/aaif-goose/goose)を基盤に、対話・文書作成・調査・開発作業を日本語で自然に進められることを目指したディストリビューションです。
 
 現在は初期開発段階です。内部のcrate名や設定キーには、上流gooseとの互換性を保つため`goose`の名称が残っています。変更方針と進捗は[TOM.md](TOM.md)を参照してください。
 
-## Tom CLIを試す
+## トムのCLIを試す
 
 ```bash
 source bin/activate-hermit
@@ -59,7 +59,7 @@ curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download
 - [チュートリアル](https://goose-docs.ai/docs/category/tutorials)
 - [ドキュメント](https://goose-docs.ai/docs/category/getting-started)
 - [ガバナンス](https://github.com/aaif-goose/goose/blob/main/GOVERNANCE.md)
-- [カスタムディストリビューション](https://github.com/aaif-goose/goose/blob/main/CUSTOM_DISTROS.md) — 独自のプロバイダー・拡張機能・ブランディングを設定した、あなただけのgooseディストリビューションを作る（Tomはこの仕組みで作られている）
+- [カスタムディストリビューション](https://github.com/aaif-goose/goose/blob/main/CUSTOM_DISTROS.md) — 独自のプロバイダー・拡張機能・ブランディングを設定した、あなただけのgooseディストリビューションを作る（トムはこの仕組みで作られている）
 
 ## 困ったときは
 - [診断とレポート](https://goose-docs.ai/docs/troubleshooting/diagnostics-and-reporting)
