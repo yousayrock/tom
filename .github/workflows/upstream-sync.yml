@@ -1,0 +1,72 @@
+name: Upstream Sync
+
+on:
+  schedule:
+    - cron: "0 18 * * *" # 03:00 JST daily
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure git identity
+        run: |
+          git config user.name "upstream-sync-bot"
+          git config user.email "actions@users.noreply.github.com"
+
+      - name: Add upstream remote
+        run: |
+          git remote add upstream https://github.com/aaif-goose/goose.git
+          git fetch upstream main
+
+      - name: Check whether upstream has new commits
+        id: diff
+        run: |
+          if git merge-base --is-ancestor upstream/main HEAD; then
+            echo "has_new=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_new=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Try merging upstream/main
+        if: steps.diff.outputs.has_new == 'true'
+        id: merge
+        run: |
+          if git merge upstream/main --no-edit; then
+            echo "conflict=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "conflict=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Push clean merge to main
+        if: steps.diff.outputs.has_new == 'true' && steps.merge.outputs.conflict == 'false'
+        run: git push origin main
+
+      - name: Open a PR when there is a conflict
+        if: steps.diff.outputs.has_new == 'true' && steps.merge.outputs.conflict == 'true'
+        run: |
+          git merge --abort || true
+          branch="upstream-sync-$(date -u +%Y%m%d)"
+          git checkout -b "$branch"
+          git merge upstream/main --no-edit || true
+          git add -A
+          git commit -m "chore: upstream sync with conflicts (needs manual resolution)" --allow-empty
+          git push origin "$branch" --force
+          gh pr create \
+            --title "Upstream sync: コンフリクトあり、要手動解消 ($(date -u +%Y-%m-%d))" \
+            --body "upstream/main の取り込みでコンフリクトが発生しました。このブランチをローカルでチェックアウトし、コンフリクトマーカーを解消してからマージしてください。トム固有の変更 (system.md, cli.rs, Cargo.toml, README.md, TOM.md) が影響を受けている可能性が高いです。" \
+            --base main \
+            --head "$branch" || echo "PR may already exist"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
