@@ -37,13 +37,18 @@ provider/model が決まったら、該当ファイルの `settings.goose_model`
 呼び出しますが、NVIDIA無料Hosted Endpointは混雑・rate limit・応答遅延があり得るため、
 これをクリティカルパスに置かない設計にしています（`DEV_TEAM_V3_SPEC.md` #5）。
 
-- `brainstorm_perspective_nvidia.yaml` は `extensions.timeout: 90`（秒）と短めに設定
+- `brainstorm_perspective_nvidia.yaml` は `extensions.timeout: 60`（秒）と短めに設定し、
+  既定モデルを実測で高速・安定だった `nvidia/nemotron-3-super-120b-a12b` にしている
+  （詳細・実測値は [`docs/DEV_TEAM_V3_NVIDIA_BENCHMARK.md`](../../docs/DEV_TEAM_V3_NVIDIA_BENCHMARK.md)）
 - instructions でリトライ上限（最大2回）とSkip条件を明記
 - 失敗・タイムアウト時は GPT/Claude側（`brainstorm_perspective`）の結果だけで
   Phase 2 以降に進む
+- 実測の結果、Kimi系・GLM系は100秒〜数百秒かかりタイムアウトすることが多く、既定候補から
+  外している。使う場合はtimeoutとリトライを大きく増やし、本番投入前に再ベンチマークすること
 - Feature/Bugfix/Refactor の各 Recipe（Standard/High Risk routing）では現状NVIDIA担当を
-  呼んでいない。Phase 3 で Fast Agent / Coding Agent 等をクリティカルパス外の補助として
-  追加する際も、同様に短いタイムアウトとSkipロジックを必須にすること。
+  呼んでいない。Phase 3 で Fast Agent（`nvidia/nemotron-3.5-lightning-30b-a3b`, 実測100秒前後
+  必要）/ Coding Agent（`poolside/laguna-xs-2.1`, 実測110秒前後必要）等を追加する際も、
+  同様に実測に基づくタイムアウトとSkipロジックを必須にすること。
 
 ## Human Gate通知（Pushover）
 

@@ -2,22 +2,25 @@ version: 1.0.0
 title: "Dev Team V3.1 - Brainstorm Perspective (NVIDIA 補助)"
 description: "NVIDIA無料Hosted APIを使う想定のBrainstorm補助担当。クリティカルパスに置かず、遅延/失敗時はSkipする前提で呼び出すこと。"
 
-# NVIDIA Developer Program の無料 Hosted Endpoint 用の provider/model を設定する。
-# （DEV_TEAM_V3_SPEC.md #5「NVIDIA無料Hosted APIの使い方」参照）
-# モデル名・無料提供状況は変動するため、利用時にNVIDIA API Catalogで確認して設定すること。
-# settings:
-#   goose_provider: "<nvidia provider>"
-#   goose_model: "<nvidia model, 例: Nemotron / Kimi / GLM 系>"
-#   max_turns: 3
+# 実測ベンチマーク結果（docs/DEV_TEAM_V3_NVIDIA_BENCHMARK.md、2026-09-23実施）に基づき、
+# 既定モデルを高速・安定だった nemotron-3-super-120b-a12b にしている。
+# Kimi/GLM系は実測で100秒超〜タイムアウトと著しく遅く、クリティカルパスは疎か補助としても
+# 実用に耐えないため既定では使わない。多様な視点がどうしても必要な場合のみ、
+# timeout/retryを十分に増やした上で明示的に切り替えること。
+settings:
+  goose_provider: "nvidia"
+  goose_model: "nvidia/nemotron-3-super-120b-a12b"
+  max_turns: 3
 
 # 無料Endpointは混雑・rate limit・throttling・応答時間の変動があり得るため、
 # ここでのextensions.timeoutは短めに設定し、開発フロー全体を止めないようにする。
+# nemotron-3-super-120b-a12b は実測3〜4秒と高速だが、混雑時のマージンを見て60秒にしている。
 # タイムアウト・429・長時間待機が発生した場合、呼び出し元（brainstorm.yaml）は
 # このサブレシピを Skip し、brainstorm_perspective（GPT/Claude側）の結果だけで進めること。
 extensions:
   - type: builtin
     name: developer
-    timeout: 90
+    timeout: 60
     bundled: true
 
 instructions: |
