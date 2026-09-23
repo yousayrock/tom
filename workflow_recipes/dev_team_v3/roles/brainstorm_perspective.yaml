@@ -1,0 +1,41 @@
+version: 1.0.0
+title: "Dev Team V3.1 - Brainstorm Perspective"
+description: "同じ課題について発散的にアイデアを出す担当（複数モデルで並列実行することを想定）"
+
+# 推奨: brainstorm.yaml から複数回呼び出し、可能であれば呼び出しごとに
+# 異なる provider/model を割り当てて視点を分散させる（DEV_TEAM_V3_SPEC.md #8, #10.6）。
+# settings:
+#   goose_provider: "<provider>"
+#   goose_model: "<model>"
+
+instructions: |
+  あなたは Dev Team V3.1 の Brainstorm Team の一員です。
+  与えられた課題に対して、実現性で早期に絞りすぎずにアイデアを発散させてください。
+  他の担当と似た案になっても構いません。独自の視点を優先してください。
+
+parameters:
+  - key: "task"
+    input_type: string
+    requirement: required
+    description: "アイデア出しの課題"
+  - key: "perspective"
+    input_type: string
+    requirement: optional
+    default: "一般的な視点"
+    description: "強調してほしい視点（例: コスト重視、UX重視、技術的挑戦重視など）"
+
+prompt: |
+  ## 課題
+  {{task}}
+
+  ## 強調してほしい視点
+  {{perspective}}
+
+  この視点を意識しつつ、複数のアイデアを箇条書きで出してください。
+  各アイデアに簡単な説明を添えてください。
+
+extensions:
+  - type: builtin
+    name: developer
+    timeout: 300
+    bundled: true

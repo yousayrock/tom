@@ -1,0 +1,74 @@
+# Dev Team V3.1 (Phase 1)
+
+`docs/DEV_TEAM_V3_SPEC.md` の Phase 1 実装: Goose Orchestrator、Dynamic Routing、
+Feature / Bugfix / Refactor / Brainstorm の各 Recipe。
+
+goose の recipe / sub_recipes 機構をそのまま利用しており、Rustコードの変更は不要です。
+
+## 使い方
+
+```bash
+tom run --recipe workflow_recipes/dev_team_v3/orchestrator.yaml \
+  --params task="ログイン画面にパスワード再設定機能を追加したい"
+```
+
+Orchestrator がタスクを分類し、`recipes/feature.yaml` などの Recipe を選び、
+規模に応じて `roles/` 配下の担当（Researcher / Architect / Implementer / Tester /
+Quality Reviewer / Security Reviewer / Final Reviewer）を必要な分だけ呼び出します。
+
+個別の Recipe を直接呼ぶこともできます。
+
+```bash
+tom run --recipe workflow_recipes/dev_team_v3/recipes/bugfix.yaml \
+  --params task="ログイン後にセッションが切れる不具合を直したい"
+```
+
+## モデルの割り当て
+
+`DEV_TEAM_V3_SPEC.md` #4 にある Role→Model の推奨割り当ては、現時点ではモデル名を
+過度に固定しないため各 `roles/*.yaml` にコメントアウトで残しています。実際に使う
+provider/model が決まったら、該当ファイルの `settings.goose_model` /
+`settings.goose_provider` のコメントを外して設定してください。未設定の場合は
+`goose configure` で設定した既定モデルがそのまま使われます。
+
+## NVIDIA補助担当とタイムアウト
+
+`recipes/brainstorm.yaml` は `roles/brainstorm_perspective_nvidia.yaml` を補助的に
+呼び出しますが、NVIDIA無料Hosted Endpointは混雑・rate limit・応答遅延があり得るため、
+これをクリティカルパスに置かない設計にしています（`DEV_TEAM_V3_SPEC.md` #5）。
+
+- `brainstorm_perspective_nvidia.yaml` は `extensions.timeout: 60`（秒）と短めに設定し、
+  既定モデルを実測で高速・安定だった `nvidia/nemotron-3-super-120b-a12b` にしている
+  （詳細・実測値は [`docs/DEV_TEAM_V3_NVIDIA_BENCHMARK.md`](../../docs/DEV_TEAM_V3_NVIDIA_BENCHMARK.md)）
+- instructions でリトライ上限（最大2回）とSkip条件を明記
+- 失敗・タイムアウト時は GPT/Claude側（`brainstorm_perspective`）の結果だけで
+  Phase 2 以降に進む
+- 実測の結果、Kimi系・GLM系は100秒〜数百秒かかりタイムアウトすることが多く、既定候補から
+  外している。使う場合はtimeoutとリトライを大きく増やし、本番投入前に再ベンチマークすること
+- Feature/Bugfix/Refactor の各 Recipe（Standard/High Risk routing）では現状NVIDIA担当を
+  呼んでいない。Phase 3 で Fast Agent（`nvidia/nemotron-3.5-lightning-30b-a3b`, 実測100秒前後
+  必要）/ Coding Agent（`poolside/laguna-xs-2.1`, 実測110秒前後必要）等を追加する際も、
+  同様に実測に基づくタイムアウトとSkipロジックを必須にすること。
+
+## Human Gate通知（Pushover）
+
+Orchestrator / Feature / Bugfix / Refactor の各 Recipe は、同じ失敗が3回続いた場合
+（Human Gate, `DEV_TEAM_V3_SPEC.md` #2, #14）に `scripts/notify_pushover.sh` を実行し、
+iPhoneのPushoverアプリへも通知します。
+
+- 認証情報はリポジトリに含めない。`~/.config/goose/pushover.env` に
+  `PUSHOVER_USER_KEY` / `PUSHOVER_API_TOKEN` を設定しておく
+  （goose-webuiで使っていたのと同じキー名・同じファイル。goose-webui自体は開発停止済み）
+- ファイル/キーが無い環境では何もせず終了する（best-effort。通知の成否に関わらず
+  チャット上での報告は必ず行う設計）
+- テスト: `bash workflow_recipes/dev_team_v3/scripts/notify_pushover.sh "テスト" "疎通確認"`
+
+## 未実装（Phase 2 以降）
+
+- Human Gate の失敗回数カウントの仕組み化（現状は instructions 内の指示のみ。
+  厳密なカウントはPhase 2でRust側かRecipeのretry設定で実装する）
+- NVIDIA Hosted API の実測ベンチマーク・成功率に基づくモデル入れ替え（`DEV_TEAM_V3_SPEC.md` #6）
+- Model Routing の自動化・成功率記録（`DEV_TEAM_V3_SPEC.md` #10, Phase 3-4）
+- Dependency Reviewer / Documentation / Release / DevOps 担当
+
+詳細は `docs/DEV_TEAM_V3_SPEC.md` の「17. 初期実装優先順位」を参照。

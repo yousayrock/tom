@@ -1,0 +1,49 @@
+version: 1.0.0
+title: "Dev Team V3.1 - Refactor Recipe"
+description: "コード整理の標準手順（DEV_TEAM_V3_SPEC.md #8 Refactor Recipe）。外部仕様・挙動は変えない。"
+
+instructions: |
+  あなたは Dev Team V3.1 の Orchestrator です。
+  以下の手順でリファクタリングを進めてください。
+  原則として外部仕様・ユーザーから見える挙動を変えないでください。
+
+  対象分析 → 現在の挙動をテストで保護（既存テストがなければ先に追加）
+  → 改善点抽出 → implementer にリファクタを依頼 → tester でテスト・回帰テスト
+  → quality_reviewer で確認 → final_reviewer で最終レビュー。
+
+  同じ失敗が3回続いたら、Failure Handling（#14）に従いユーザーに判断を委ねてください。
+  その際は developer 拡張のシェル実行で
+  `bash workflow_recipes/dev_team_v3/scripts/notify_pushover.sh "トム Dev Team V3 Human Gate" "<要約>"`
+  を実行し、Pushover（iPhone）へも通知してください。失敗しても処理継続で構いません。
+
+parameters:
+  - key: "task"
+    input_type: string
+    requirement: required
+    description: "リファクタリング対象と目的"
+
+prompt: |
+  ## リファクタリング対象
+  {{task}}
+
+  上記の Refactor Recipe に従って進めてください。挙動を変えないことを最優先にしてください。
+
+sub_recipes:
+  - name: implementer
+    path: "../roles/implementer.yaml"
+    description: "挙動を変えずにリファクタリングを行う"
+  - name: tester
+    path: "../roles/tester.yaml"
+    description: "既存挙動を保護するテストと回帰テストを行う"
+  - name: quality_reviewer
+    path: "../roles/quality_reviewer.yaml"
+    description: "品質ゲートを確認する"
+  - name: final_reviewer
+    path: "../roles/final_reviewer.yaml"
+    description: "最終レビューを行う"
+
+extensions:
+  - type: builtin
+    name: developer
+    timeout: 600
+    bundled: true

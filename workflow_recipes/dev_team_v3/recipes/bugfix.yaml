@@ -1,0 +1,52 @@
+version: 1.0.0
+title: "Dev Team V3.1 - Bugfix Recipe"
+description: "バグ修正の標準手順（DEV_TEAM_V3_SPEC.md #8 Bugfix Recipe）"
+
+instructions: |
+  あなたは Dev Team V3.1 の Orchestrator です。
+  以下の手順でバグ修正を進めてください。
+
+  バグ報告 → implementer に再現・切り分け・根本原因分析を依頼 → implementer が修正
+  → tester でテスト・回帰テスト → quality_reviewer（必要なら security_reviewer）で確認
+  → final_reviewer で最終レビュー → 結果をユーザーに報告。
+
+  再現できない、または3回試しても解決しない場合は Failure Handling（#14）に従い、
+  試した内容・仮説・必要な判断をユーザーに提示してください。
+  その際は developer 拡張のシェル実行で
+  `bash workflow_recipes/dev_team_v3/scripts/notify_pushover.sh "トム Dev Team V3 Human Gate" "<要約>"`
+  を実行し、Pushover（iPhone）へも通知してください。失敗しても処理継続で構いません。
+
+parameters:
+  - key: "task"
+    input_type: string
+    requirement: required
+    description: "バグ報告の内容"
+
+prompt: |
+  ## バグ報告
+  {{task}}
+
+  上記の Bugfix Recipe に従って進めてください。
+
+sub_recipes:
+  - name: implementer
+    path: "../roles/implementer.yaml"
+    description: "再現・切り分け・根本原因分析・修正を行う"
+  - name: tester
+    path: "../roles/tester.yaml"
+    description: "テストと回帰テストを行う"
+  - name: quality_reviewer
+    path: "../roles/quality_reviewer.yaml"
+    description: "品質ゲートを確認する"
+  - name: security_reviewer
+    path: "../roles/security_reviewer.yaml"
+    description: "高リスクな修正のセキュリティゲートを確認する"
+  - name: final_reviewer
+    path: "../roles/final_reviewer.yaml"
+    description: "最終レビューを行う"
+
+extensions:
+  - type: builtin
+    name: developer
+    timeout: 600
+    bundled: true
