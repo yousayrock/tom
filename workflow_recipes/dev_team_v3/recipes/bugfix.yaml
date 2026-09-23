@@ -12,6 +12,9 @@ instructions: |
 
   再現できない、または3回試しても解決しない場合は Failure Handling（#14）に従い、
   試した内容・仮説・必要な判断をユーザーに提示してください。
+  その際は developer 拡張のシェル実行で
+  `bash workflow_recipes/dev_team_v3/scripts/notify_pushover.sh "トム Dev Team V3 Human Gate" "<要約>"`
+  を実行し、Pushover（iPhone）へも通知してください。失敗しても処理継続で構いません。
 
 parameters:
   - key: "task"

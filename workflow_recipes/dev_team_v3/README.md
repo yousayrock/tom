@@ -45,9 +45,23 @@ provider/model が決まったら、該当ファイルの `settings.goose_model`
   呼んでいない。Phase 3 で Fast Agent / Coding Agent 等をクリティカルパス外の補助として
   追加する際も、同様に短いタイムアウトとSkipロジックを必須にすること。
 
+## Human Gate通知（Pushover）
+
+Orchestrator / Feature / Bugfix / Refactor の各 Recipe は、同じ失敗が3回続いた場合
+（Human Gate, `DEV_TEAM_V3_SPEC.md` #2, #14）に `scripts/notify_pushover.sh` を実行し、
+iPhoneのPushoverアプリへも通知します。
+
+- 認証情報はリポジトリに含めない。`~/.config/goose/pushover.env` に
+  `PUSHOVER_USER_KEY` / `PUSHOVER_API_TOKEN` を設定しておく
+  （goose-webuiで使っていたのと同じキー名・同じファイル。goose-webui自体は開発停止済み）
+- ファイル/キーが無い環境では何もせず終了する（best-effort。通知の成否に関わらず
+  チャット上での報告は必ず行う設計）
+- テスト: `bash workflow_recipes/dev_team_v3/scripts/notify_pushover.sh "テスト" "疎通確認"`
+
 ## 未実装（Phase 2 以降）
 
-- Human Gate の自動停止・失敗回数カウントの仕組み化（現状は instructions 内の指示のみ）
+- Human Gate の失敗回数カウントの仕組み化（現状は instructions 内の指示のみ。
+  厳密なカウントはPhase 2でRust側かRecipeのretry設定で実装する）
 - NVIDIA Hosted API の実測ベンチマーク・成功率に基づくモデル入れ替え（`DEV_TEAM_V3_SPEC.md` #6）
 - Model Routing の自動化・成功率記録（`DEV_TEAM_V3_SPEC.md` #10, Phase 3-4）
 - Dependency Reviewer / Documentation / Release / DevOps 担当

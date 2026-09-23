@@ -15,6 +15,9 @@ instructions: |
   呼び出す担当を絞ってください（小規模なら implementer → tester のみでよい）。
   同じ失敗が3回続いたら、担当やモデルを変えるか、それでも解決しなければ
   ユーザーに判断を委ねてください（Failure Handling #14）。
+  その際は developer 拡張のシェル実行で
+  `bash workflow_recipes/dev_team_v3/scripts/notify_pushover.sh "トム Dev Team V3 Human Gate" "<要約>"`
+  を実行し、Pushover（iPhone）へも通知してください。失敗しても処理継続で構いません。
 
 parameters:
   - key: "task"

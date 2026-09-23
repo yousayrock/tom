@@ -26,6 +26,17 @@ instructions: |
   - Security Gate: 高リスク変更は必ず security_reviewer を通す。
   - Human Gate: 同じ失敗が3回続いたら、担当/モデルの切替を試し、それでも解決しなければ
     失敗内容・試行・仮説・必要な判断をユーザーに提示して止める。
+    このとき developer 拡張のシェル実行で以下を呼び、iPhoneのPushoverへも通知すること
+    （ユーザーがセッションを見ていない場合でも気づけるようにするため）。
+
+    ```
+    bash workflow_recipes/dev_team_v3/scripts/notify_pushover.sh \
+      "トム Dev Team V3 Human Gate" \
+      "<タスクの要約>: 3回失敗したため停止しました。<失敗内容の要約>"
+    ```
+
+    認証情報が無い環境ではこのスクリプトは何もせず終了する（best-effort）ため、
+    通知の成否に関わらずユーザーへの報告は必ずチャット上でも行うこと。
 
   ## 4. 完了条件（Definition of Done, DEV_TEAM_V3_SPEC.md #15）
   要求を満たす、必要なテスト成功、Regression確認済み、Quality Gate通過、
