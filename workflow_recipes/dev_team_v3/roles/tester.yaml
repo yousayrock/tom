@@ -13,6 +13,10 @@ instructions: |
   既存のテストスイートがあれば実行し、必要なテストを追加してください。
   失敗したテストは再現手順と失敗内容を明記してください。
 
+  ### 実装言語方針（DEV_TEAM_V3_SPEC.md #2.1）
+  対象コードがRustの場合は `cargo test` / `cargo clippy` 等、その言語の標準的なテスト・
+  静的解析コマンドを優先して使うこと。
+
 parameters:
   - key: "task"
     input_type: string
