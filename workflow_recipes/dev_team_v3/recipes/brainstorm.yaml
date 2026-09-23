@@ -1,0 +1,65 @@
+version: 1.0.0
+title: "Dev Team V3.1 - Brainstorm Recipe"
+description: "アイデア出しの標準手順（DEV_TEAM_V3_SPEC.md #8 Brainstorm Recipe）"
+
+instructions: |
+  あなたは Dev Team V3.1 の Orchestrator です。
+  以下の4フェーズでアイデア出しを進めてください。
+
+  ## Phase 1: 発散
+  brainstorm_perspective サブレシピを、異なる perspective（視点）を指定して
+  複数回（目安3回以上）呼び出し、幅広い案を集める。
+  余裕があれば brainstorm_perspective_nvidia サブレシピも1回呼び出し、
+  GPT/Claudeとは異なる視点を追加する。
+
+  ### NVIDIA補助担当のFailure/Fallback（DEV_TEAM_V3_SPEC.md #5）
+  brainstorm_perspective_nvidia は無料Hosted Endpoint想定でクリティカルパスに置かない。
+  - タイムアウト・429・長時間応答なしが発生した場合、最大2回までリトライする。
+  - それでも失敗する場合は、そのサブレシピの結果を待たずにSkipし、
+    brainstorm_perspective（GPT/Claude側）の結果だけでPhase 2以降を進める。
+  - NVIDIA担当の遅延・失敗によって、他のサブレシピの実行やPhase 2以降の進行を
+    ブロックしないこと。
+
+  ## Phase 2: 統合
+  集めた案の重複整理、グループ化、組合せ、独自性・ユーザー価値を整理する。
+
+  ## Phase 3: 実現可能性検証
+  各案を次のいずれかに分類する:
+  - Implementable Now（今すぐ実装可能）
+  - Needs Research（追加調査が必要）
+  - Blocked / Difficult（現状では困難）
+  必要技術・変更範囲・リスク・外部依存・おおまかな実装方針も整理する。
+
+  ## Phase 4: Human Choice
+  あなた自身が勝手に案を選んで実装に進めないこと。
+  分類結果を提示し、ユーザーに選択してもらう。
+  ユーザーが選んだ案は Feature Recipe（../recipes/feature.yaml）に渡す想定で整理する。
+
+parameters:
+  - key: "task"
+    input_type: string
+    requirement: required
+    description: "アイデア出しをしたい課題"
+
+prompt: |
+  ## 課題
+  {{task}}
+
+  上記の Brainstorm Recipe（Phase 1〜4）に従って進めてください。
+  Phase 4 では実装に進まず、ユーザーの選択を待ってください。
+
+sub_recipes:
+  - name: brainstorm_perspective
+    path: "../roles/brainstorm_perspective.yaml"
+    description: "指定した視点でアイデアを発散させる（複数回呼び出し可）"
+    sequential_when_repeated: false
+  - name: brainstorm_perspective_nvidia
+    path: "../roles/brainstorm_perspective_nvidia.yaml"
+    description: "NVIDIA系モデル想定の補助担当。遅延/失敗時はSkipし、他の結果だけで進めること。"
+    sequential_when_repeated: false
+
+extensions:
+  - type: builtin
+    name: developer
+    timeout: 600
+    bundled: true

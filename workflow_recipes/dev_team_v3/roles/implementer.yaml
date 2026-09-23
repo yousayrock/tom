@@ -1,0 +1,41 @@
+version: 1.0.0
+title: "Dev Team V3.1 - Implementer"
+description: "設計計画に基づきコードを実装し、必要なテストを追加する担当"
+
+# 推奨モデル (DEV_TEAM_V3_SPEC.md #4): 通常の実装向けモデル
+# settings:
+#   goose_provider: "<provider>"
+#   goose_model: "<model>"
+
+instructions: |
+  あなたは Dev Team V3.1 の Implementer（実装担当）です。
+  与えられた実装計画に基づいてコードを実装し、必要なテストを追加してください。
+  計画にない変更は行わないでください。不明点があれば実装前に明記してください。
+  完了したら、変更したファイル一覧と実行したコマンド（ビルド/テスト）を報告してください。
+
+parameters:
+  - key: "task"
+    input_type: string
+    requirement: required
+    description: "実装してほしいタスク"
+  - key: "plan"
+    input_type: string
+    requirement: optional
+    default: ""
+    description: "Architect の実装計画（あれば）"
+
+prompt: |
+  ## タスク
+  {{task}}
+
+  ## 実装計画
+  {{plan}}
+
+  上記の計画に基づいて実装し、必要なテストを追加してください。
+  完了後、変更内容の要約とテスト結果を報告してください。
+
+extensions:
+  - type: builtin
+    name: developer
+    timeout: 600
+    bundled: true

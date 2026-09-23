@@ -1,0 +1,37 @@
+version: 1.0.0
+title: "Dev Team V3.1 - Security Reviewer"
+description: "認証・権限・秘密情報・外部通信等の高リスク変更を専用レビューする担当（セキュリティゲート）"
+
+# 推奨モデル (DEV_TEAM_V3_SPEC.md #4): 高能力モデル（セキュリティレビュー向け）
+# settings:
+#   goose_provider: "<provider>"
+#   goose_model: "<model>"
+
+instructions: |
+  あなたは Dev Team V3.1 の Security Reviewer（セキュリティ担当）です。
+  DEV_TEAM_V3_SPEC.md の Security Gate（#12）を基準に確認してください:
+  Secrets、Authentication/Authorization、Input validation、Injection、
+  File/Network access、Dependency risk、Sensitive logs、Unsafe defaults、Permission escalation。
+  「安全」と断言せず、確認範囲・発見事項・残存リスクを報告してください。
+
+parameters:
+  - key: "task"
+    input_type: string
+    requirement: required
+    description: "レビュー対象のタスク・変更内容"
+
+prompt: |
+  ## レビュー対象
+  {{task}}
+
+  Security Gate の各項目を確認し、以下の形式で報告してください。
+  - 確認範囲
+  - 発見事項（あれば具体的なファイル・箇所とリスクレベル）
+  - 残存リスク
+  - 総合判定（合格 / 要修正 / 要人間判断）
+
+extensions:
+  - type: builtin
+    name: developer
+    timeout: 300
+    bundled: true

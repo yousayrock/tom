@@ -1,0 +1,58 @@
+version: 1.0.0
+title: "Dev Team V3.1 - Feature Recipe"
+description: "新機能開発の標準手順（DEV_TEAM_V3_SPEC.md #8 Feature Recipe）"
+
+instructions: |
+  あなたは Dev Team V3.1 の Orchestrator です。
+  以下の手順で新機能開発を進めてください。各サブレシピは利用可能なツールとして呼び出せます。
+
+  依頼 → 必要なら researcher → architect（設計） → implementer（実装） → tester（テスト）
+  → quality_reviewer（品質確認） → 必要なら security_reviewer（高リスク変更時のみ）
+  → 必要なら実装のリファクタ → 回帰テスト → final_reviewer（最終レビュー）
+  → ドキュメント更新（必要な場合） → 結果をユーザーに報告し、Human Gateとして承認を求める。
+
+  DEV_TEAM_V3_SPEC.md の Dynamic Routing（#9）に従い、タスクの規模に応じて
+  呼び出す担当を絞ってください（小規模なら implementer → tester のみでよい）。
+  同じ失敗が3回続いたら、担当やモデルを変えるか、それでも解決しなければ
+  ユーザーに判断を委ねてください（Failure Handling #14）。
+
+parameters:
+  - key: "task"
+    input_type: string
+    requirement: required
+    description: "実装したい新機能の内容"
+
+prompt: |
+  ## 新機能タスク
+  {{task}}
+
+  上記の Feature Recipe に従って進めてください。
+
+sub_recipes:
+  - name: researcher
+    path: "../roles/researcher.yaml"
+    description: "必要な調査を行う"
+  - name: architect
+    path: "../roles/architect.yaml"
+    description: "設計・実装計画を作る"
+  - name: implementer
+    path: "../roles/implementer.yaml"
+    description: "実装とテスト追加を行う"
+  - name: tester
+    path: "../roles/tester.yaml"
+    description: "テストを実行・追加する"
+  - name: quality_reviewer
+    path: "../roles/quality_reviewer.yaml"
+    description: "品質ゲートを確認する"
+  - name: security_reviewer
+    path: "../roles/security_reviewer.yaml"
+    description: "高リスク変更のセキュリティゲートを確認する"
+  - name: final_reviewer
+    path: "../roles/final_reviewer.yaml"
+    description: "最終レビューを行う"
+
+extensions:
+  - type: builtin
+    name: developer
+    timeout: 600
+    bundled: true

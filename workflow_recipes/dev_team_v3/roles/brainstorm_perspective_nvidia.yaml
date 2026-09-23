@@ -1,0 +1,47 @@
+version: 1.0.0
+title: "Dev Team V3.1 - Brainstorm Perspective (NVIDIA 補助)"
+description: "NVIDIA無料Hosted APIを使う想定のBrainstorm補助担当。クリティカルパスに置かず、遅延/失敗時はSkipする前提で呼び出すこと。"
+
+# NVIDIA Developer Program の無料 Hosted Endpoint 用の provider/model を設定する。
+# （DEV_TEAM_V3_SPEC.md #5「NVIDIA無料Hosted APIの使い方」参照）
+# モデル名・無料提供状況は変動するため、利用時にNVIDIA API Catalogで確認して設定すること。
+# settings:
+#   goose_provider: "<nvidia provider>"
+#   goose_model: "<nvidia model, 例: Nemotron / Kimi / GLM 系>"
+#   max_turns: 3
+
+# 無料Endpointは混雑・rate limit・throttling・応答時間の変動があり得るため、
+# ここでのextensions.timeoutは短めに設定し、開発フロー全体を止めないようにする。
+# タイムアウト・429・長時間待機が発生した場合、呼び出し元（brainstorm.yaml）は
+# このサブレシピを Skip し、brainstorm_perspective（GPT/Claude側）の結果だけで進めること。
+extensions:
+  - type: builtin
+    name: developer
+    timeout: 90
+    bundled: true
+
+instructions: |
+  あなたは Dev Team V3.1 の Brainstorm Team のうち、NVIDIA系モデルを想定した補助担当です。
+  GPT/Claude系とは異なる視点を優先してアイデアを発散させてください。
+  応答が難しい/情報が不足している場合は、無理に長考せず早めに出力を返してください
+  （このロールは無料Hosted Endpointの遅延・rate limitを前提に短いタイムアウトで運用されます）。
+
+parameters:
+  - key: "task"
+    input_type: string
+    requirement: required
+    description: "アイデア出しの課題"
+  - key: "perspective"
+    input_type: string
+    requirement: optional
+    default: "GPT/Claudeとは異なる視点"
+    description: "強調してほしい視点"
+
+prompt: |
+  ## 課題
+  {{task}}
+
+  ## 強調してほしい視点
+  {{perspective}}
+
+  この視点を意識しつつ、簡潔に複数のアイデアを箇条書きで出してください。

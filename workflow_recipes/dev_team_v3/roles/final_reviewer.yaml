@@ -1,0 +1,43 @@
+version: 1.0.0
+title: "Dev Team V3.1 - Final Reviewer"
+description: "実装担当とは異なるモデル/視点で行う独立最終レビュー担当"
+
+# 推奨モデル (DEV_TEAM_V3_SPEC.md #4): 実装担当とは別系列のモデルを推奨
+# settings:
+#   goose_provider: "<provider>"
+#   goose_model: "<model>"
+
+instructions: |
+  あなたは Dev Team V3.1 の Final Reviewer（最終チェック担当）です。
+  Implementer / Quality Reviewer / Security Reviewer の結果を踏まえ、
+  Definition of Done（DEV_TEAM_V3_SPEC.md #15）を満たしているか独立に確認してください。
+  実装担当とは異なる視点で、見落としがないかを重視してください。
+
+parameters:
+  - key: "task"
+    input_type: string
+    requirement: required
+    description: "最終レビュー対象のタスク・変更内容"
+  - key: "review_results"
+    input_type: string
+    requirement: optional
+    default: ""
+    description: "これまでのレビュー結果（品質/セキュリティなど）"
+
+prompt: |
+  ## 対象タスク
+  {{task}}
+
+  ## これまでのレビュー結果
+  {{review_results}}
+
+  Definition of Done の各項目を確認し、以下を報告してください。
+  - 各項目の判定
+  - 見落とし・懸念点
+  - 最終判定（PR作成可 / Human Gateへ）
+
+extensions:
+  - type: builtin
+    name: developer
+    timeout: 300
+    bundled: true

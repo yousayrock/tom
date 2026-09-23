@@ -27,6 +27,13 @@
 - [ ] 日本語向け初期設定とクイックスタート
 - [ ] 日本語タスクの評価セット
 
+### Dev Team V3.1（`docs/DEV_TEAM_V3_SPEC.md`）
+
+- [x] Phase 1: Goose Orchestrator、Dynamic Routing、Feature/Bugfix/Refactor/Brainstorm Recipe（`workflow_recipes/dev_team_v3/`）
+- [ ] Phase 2: Tester、Quality Reviewer、Security Reviewer、Final Reviewer の自動連携、Human Gate
+- [ ] Phase 3: Model Routing、並列Agent実行、NVIDIA fallback/benchmark、Dependency Reviewer、Documentation、Release/DevOps
+- [ ] Phase 4: コスト最適化、モデル成功率記録、Routing改善、Recipe追加・改善
+
 ### Phase 3: 配布
 
 - [ ] トム用アイコンとパッケージメタデータ
